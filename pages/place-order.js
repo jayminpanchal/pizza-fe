@@ -14,8 +14,8 @@ import Heading from "../components/Heading";
 import Navbar from "../components/Navbar";
 import CartItem from "../components/CartItem";
 import Loading from "../components/Loading";
+import { DeliveryFee } from "../utils/constants";
 
-const DeliveryFee = 2;
 const { TextArea } = Input;
 
 const PlaceOrder = ({
@@ -28,11 +28,6 @@ const PlaceOrder = ({
   placeOrderSuccess,
   placeOrderError,
 }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
   useEffect(() => {
     fetchCart({ uuid: getUUID() });
   }, []);
@@ -48,7 +43,9 @@ const PlaceOrder = ({
             <p className="cart-heading">Quantity</p>
           </Col>
           <Col span={6}>
-            <p className="cart-heading">Price</p>
+            <p className="cart-heading" style={{ textAlign: "right" }}>
+              Price
+            </p>
           </Col>
         </Row>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card, Row, Col, Select } from "antd";
 
 import { getUUID } from "../utils/udid";
@@ -6,18 +6,21 @@ import { getUUID } from "../utils/udid";
 const { Option } = Select;
 
 const Pizza = ({ pizza, addToCart }) => {
-  const [size, setSize] = useState(1);
-  const [crust, setCrust] = useState(1);
+  const [size, setSize] = useState(0);
+  const [crust, setCrust] = useState(0);
+  const [crustOptions, setCrustOptions] = useState([]);
+  const [sizeOptions, setSizeOptions] = useState([]);
 
-  const sizeOptions = pizza.sizes.map((size) => ({
-    label: size.name,
-    value: size.id,
-  }));
-
-  const crustOptions = pizza.crusts.map((crust) => ({
-    label: crust.name,
-    value: crust.id,
-  }));
+  useEffect(() => {
+    const sizeOptions = pizza.sizes.map((size) => ({
+      label: size.name,
+      value: size.id,
+    }));
+    const size = sizeOptions.length > 0 ? sizeOptions[0].value : 0;
+    setCrustOptionsBasedOnSize(size);
+    setSizeOptions(sizeOptions);
+    setSize(size);
+  }, []);
 
   const onAddToCart = () => {
     addToCart({
@@ -27,6 +30,20 @@ const Pizza = ({ pizza, addToCart }) => {
       crust_id: crust,
       quantity: 1,
     });
+  };
+
+  const setCrustOptionsBasedOnSize = (size) => {
+    const availableCrust = pizza.prices
+      .filter((price) => parseInt(price.size_id) === size)
+      .map((price) => parseInt(price.crust_id));
+    const crustOptions = pizza.crusts
+      .filter((crust) => availableCrust.includes(crust.id))
+      .map((crust) => ({
+        label: crust.name,
+        value: crust.id,
+      }));
+    setCrust(crustOptions.length > 0 ? crustOptions[0].value : 0);
+    setCrustOptions(crustOptions);
   };
 
   return (
@@ -45,9 +62,12 @@ const Pizza = ({ pizza, addToCart }) => {
             <Col span={10}>
               <p className="select-label">Size</p>
               <Select
-                defaultValue={size}
+                value={size}
                 style={{ width: "100%" }}
-                onChange={(value) => setSize(value)}
+                onChange={(value) => {
+                  setSize(value);
+                  setCrustOptionsBasedOnSize(value);
+                }}
               >
                 {sizeOptions.map((sizeOption) => (
                   <Option
@@ -62,7 +82,7 @@ const Pizza = ({ pizza, addToCart }) => {
             <Col span={14}>
               <p className="select-label">Crust</p>
               <Select
-                defaultValue={crust}
+                value={crust}
                 style={{ width: "100%" }}
                 onChange={(value) => setCrust(value)}
               >

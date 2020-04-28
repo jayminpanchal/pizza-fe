@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import Router from "next/router";
 
 import { getUUID } from "../utils/udid";
-
 import { fetchCart, removeFromCart, updateCart } from "../store/actions";
 import Navbar from "../components/Navbar";
 import Heading from "../components/Heading";
 import CartItem from "../components/CartItem";
 import Loading from "../components/Loading";
+import { DeliveryFee } from "../utils/constants";
 
 const Cart = ({
   cartItems,
@@ -33,7 +33,9 @@ const Cart = ({
             <p className="cart-heading">Quantity</p>
           </Col>
           <Col span={4}>
-            <p className="cart-heading">Price</p>
+            <p className="cart-heading" style={{ textAlign: "right" }}>
+              Price
+            </p>
           </Col>
           <Col span={2}></Col>
         </Row>
@@ -56,6 +58,11 @@ const Cart = ({
     ));
   };
 
+  let totalItemsPrice = 0;
+  cartItems.forEach((cartItem) => {
+    totalItemsPrice += cartItem.price * cartItem.quantity;
+  });
+
   return (
     <div className="container">
       <Navbar />
@@ -65,6 +72,37 @@ const Cart = ({
           <div className="cart-items-container">
             {cartItems.length > 0 && renderHeading()}
             {renderCartItems()}
+          </div>
+          <div className="cart-total-container">
+            <Row>
+              <Col span={12}></Col>
+              <Col span={6}></Col>
+              <Col span={4}>
+                <Row>
+                  <Col span={12}>
+                    <p className="price-label">Price</p>
+                    <p className="price-label">Delivery Fee</p>
+                    <p className="total-price-label">Total:</p>
+                  </Col>
+                  <Col span={12}>
+                    <div
+                      style={{
+                        alignItems: "flex-end",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <p className="price-label">${totalItemsPrice}</p>
+                      <p className="price-label">${DeliveryFee}</p>
+                      <p className="total-price-label">
+                        ${totalItemsPrice + DeliveryFee}
+                      </p>
+                    </div>
+                  </Col>
+                </Row>
+              </Col>
+              <Col span={2}></Col>
+            </Row>
           </div>
           {cartItems.length > 0 && (
             <div className="cart-order-container">

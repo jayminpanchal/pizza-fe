@@ -43,9 +43,11 @@ const CartItem = ({ cartItem, removeFromCart, updateCart, editable }) => {
             cartItem.quantity
           )}
         </Col>
-        <Col span={4}>${cartItem.quantity * cartItem.price}</Col>
+        <Col span={editable ? 4 : 6} style={{ textAlign: "right" }}>
+          ${cartItem.quantity * cartItem.price}
+        </Col>
         {editable && (
-          <Col span={2}>
+          <Col span={2} style={{ justifyContent: "center", display: "flex" }}>
             <Button icon={<FaTrash />} onClick={onRemove} />
           </Col>
         )}
