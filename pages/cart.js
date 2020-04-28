@@ -7,6 +7,7 @@ import { getUUID } from "../utils/udid";
 
 import { fetchCart, removeFromCart, updateCart } from "../store/actions";
 import Navbar from "../components/Navbar";
+import Heading from "../components/Heading";
 import CartItem from "../components/CartItem";
 import Loading from "../components/Loading";
 
@@ -58,6 +59,7 @@ const Cart = ({
   return (
     <div className="container">
       <Navbar />
+      <Heading title="Cart" />
       <div className="content-container">
         <div className="cart-container">
           <div className="cart-items-container">

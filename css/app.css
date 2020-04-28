@@ -53,6 +53,14 @@ header {
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  height: 100%;
+}
+
+.ant-card-body {
+  display: flex;
+  flex: 1;
 }
 
 .pizza-image-wrapper {
@@ -65,7 +73,7 @@ header {
 
 .pizza-desc {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
 }
 .pizza-option-wrapper {
   margin: 10px 0;
@@ -160,4 +168,13 @@ header {
 .form-link-label {
   text-align: center;
   cursor: pointer;
+}
+.page-heading {
+  background-color: #efefef;
+  padding: 20px 50px;
+  align-items: center;
+  display: flex;
+}
+.page-heading h1 {
+  margin: 0;
 }

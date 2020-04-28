@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Input, Row, Col, Button, message } from "antd";
+import { Input, Row, Col, Button, message, Form } from "antd";
 import Router from "next/router";
 
 import { signUpWatcher, setUserError } from "../store/actions";
 import Navbar from "../components/Navbar";
+import Heading from "../components/Heading";
 import Loading from "../components/Loading";
 
 const SignIn = ({ error, user, isLoading, signUpWatcher, setUserError }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onSignUp = () => {
-    signUpWatcher({ email, password, name });
+  const onSignUp = (values) => {
+    signUpWatcher(values);
   };
 
   useEffect(() => {
@@ -33,47 +30,62 @@ const SignIn = ({ error, user, isLoading, signUpWatcher, setUserError }) => {
   return (
     <div className="container">
       <Navbar />
+      <Heading title="Register" />
       <div className="content-container">
-        <Row justify="center" align="center">
-          <Col span={6}>
-            <div className="form-group">
-              <Input
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <Input
-                placeholder="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <Input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <Button type="primary" onClick={onSignUp} block>
-                Sign Up
-              </Button>
-            </div>
-            <p
-              className="form-link-label"
-              onClick={() => {
-                setUserError(null);
-                Router.push("/signin");
-              }}
-            >
-              Existing User? Sign In
-            </p>
-          </Col>
-        </Row>
+        <Form onFinish={onSignUp}>
+          <Row justify="center" align="center">
+            <Col span={6}>
+              <div className="form-group">
+                <Form.Item
+                  name="name"
+                  rules={[
+                    { required: true, message: "Please input your name!" },
+                  ]}
+                >
+                  <Input placeholder="Name" />
+                </Form.Item>
+              </div>
+              <div className="form-group">
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      type: "email",
+                      message: "Please input your email!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="E-mail" />
+                </Form.Item>
+              </div>
+              <div className="form-group">
+                <Form.Item
+                  name="password"
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                  ]}
+                >
+                  <Input.Password placeholder="Password" />
+                </Form.Item>
+              </div>
+              <div className="form-group">
+                <Button type="primary" htmlType="submit" block>
+                  Sign Up
+                </Button>
+              </div>
+              <p
+                className="form-link-label"
+                onClick={() => {
+                  setUserError(null);
+                  Router.push("/signin");
+                }}
+              >
+                Existing User? Sign In
+              </p>
+            </Col>
+          </Row>
+        </Form>
       </div>
       {isLoading && <Loading />}
     </div>

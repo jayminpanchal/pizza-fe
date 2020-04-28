@@ -1,30 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+#Pizza-FE
 
-## Getting Started
+Instructions to Run
 
-First, run the development server:
+### Instructions to Run
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- Clone the project and put it whatever directory you want.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Don't forget the following commands: using `npm`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+      npm install
+      npm run dev
 
-## Learn More
+Don't forget the following commands: using `npm`
 
-To learn more about Next.js, take a look at the following resources:
+      
+      yarn
+      yarn dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project  will be up on `localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on ZEIT Now
-
-The easiest way to deploy your Next.js app is to use the [ZEIT Now Platform](https://zeit.co/) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Note: If you want to use the local api server then please change the base url in `utils/constants.js` file.

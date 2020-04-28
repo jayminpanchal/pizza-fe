@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Card } from "antd";
 import { connect } from "react-redux";
-import Router from "next/router";
 
-import { getUUID } from "../utils/udid";
 import { fetchOrders } from "../store/actions";
 import Navbar from "../components/Navbar";
+import Heading from "../components/Heading";
 import CartItem from "../components/CartItem";
 import Loading from "../components/Loading";
 
@@ -60,6 +59,7 @@ const Orders = ({ fetchOrders, isLoading, orders }) => {
   return (
     <div className="container">
       <Navbar />
+      <Heading title="Orders" />
       <div className="content-container">
         <div className="cart-container">
           <div className="cart-items-container">{renderOrders()}</div>

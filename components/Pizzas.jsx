@@ -9,7 +9,12 @@ const Pizzas = ({ pizzas, addToCart }) => {
   return (
     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
       {pizzas.map((pizza, index) => (
-        <Col className="gutter-row" span={6} key={`PIZZE_${index}`}>
+        <Col
+          className="gutter-row"
+          span={6}
+          key={`PIZZE_${index}`}
+          style={{ display: "flex" }}
+        >
           <Pizza pizza={pizza} addToCart={addToCart} />
         </Col>
       ))}

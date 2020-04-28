@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Input, Button, message } from "antd";
+import { Row, Col, Input, Button, message, Form } from "antd";
 import { connect } from "react-redux";
 import Router from "next/router";
 
@@ -10,6 +10,7 @@ import {
   placeOrderSuccess,
   placeOrderError,
 } from "../store/actions";
+import Heading from "../components/Heading";
 import Navbar from "../components/Navbar";
 import CartItem from "../components/CartItem";
 import Loading from "../components/Loading";
@@ -72,13 +73,10 @@ const PlaceOrder = ({
     totalItemsPrice += cartItem.price * cartItem.quantity;
   });
 
-  const onPlaceOrder = () => {
+  const onPlaceOrder = (values) => {
     placeOrder({
       uuid: getUUID(),
-      name,
-      email,
-      phone,
-      address,
+      ...values,
     });
   };
 
@@ -100,6 +98,7 @@ const PlaceOrder = ({
   return (
     <div className="container">
       <Navbar />
+      <Heading title="Place Order" />
       <div className="content-container">
         <div className="cart-container">
           <div className="cart-items-container">
@@ -111,52 +110,87 @@ const PlaceOrder = ({
               <Col span={12}></Col>
               <Col span={6}></Col>
               <Col span={6}>
-                <p className="price-label">Price: ${totalItemsPrice}</p>
-                <p className="price-label">Delivery Fee: ${DeliveryFee}</p>
-                <p className="total-price-label">
-                  Total: ${totalItemsPrice + DeliveryFee}
-                </p>
+                <Row>
+                  <Col span={12}>
+                    <p className="price-label">Price</p>
+                    <p className="price-label">Delivery Fee</p>
+                    <p className="total-price-label">Total:</p>
+                  </Col>
+                  <Col span={12}>
+                    <div
+                      style={{
+                        alignItems: "flex-end",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <p className="price-label">${totalItemsPrice}</p>
+                      <p className="price-label">${DeliveryFee}</p>
+                      <p className="total-price-label">
+                        ${totalItemsPrice + DeliveryFee}
+                      </p>
+                    </div>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </div>
         </div>
-        <div className="form-container">
-          <p>Delivery Address</p>
-          <div className="form-group">
-            <Input
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+        <Form onFinish={onPlaceOrder}>
+          <div className="form-container">
+            <p>Delivery Address</p>
+            <div className="form-group">
+              <Form.Item
+                name="name"
+                rules={[{ required: true, message: "Please input your name!" }]}
+              >
+                <Input placeholder="Name" />
+              </Form.Item>
+            </div>
+            <div className="form-group">
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please input your email!",
+                  },
+                ]}
+              >
+                <Input placeholder="E-mail" />
+              </Form.Item>
+            </div>
+            <div className="form-group">
+              <Form.Item
+                name="phone"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your phone!",
+                  },
+                ]}
+              >
+                <Input placeholder="Phone Number" />
+              </Form.Item>
+            </div>
+            <div className="form-group">
+              <Form.Item
+                name="address"
+                rules={[
+                  { required: true, message: "Please input your address!" },
+                ]}
+              >
+                <TextArea rows={3} placeholder="address" />
+              </Form.Item>
+            </div>
           </div>
-          <div className="form-group">
-            <Input
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <div className="cart-order-container">
+            <Button type="primary" htmlType="submit">
+              Place Order
+            </Button>
           </div>
-          <div className="form-group">
-            <Input
-              placeholder="Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <TextArea
-              rows={3}
-              placeholder="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="cart-order-container">
-          <Button type="primary" onClick={onPlaceOrder}>
-            Place Order
-          </Button>
-        </div>
+        </Form>
       </div>
       {isLoading && <Loading />}
     </div>

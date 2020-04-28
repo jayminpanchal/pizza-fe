@@ -30,7 +30,11 @@ const Pizza = ({ pizza, addToCart }) => {
   };
 
   return (
-    <Card title={pizza.title}>
+    <Card
+      title={pizza.name}
+      style={{ marginBottom: "20px", display: "flex", flexDirection: "column" }}
+      flex={1}
+    >
       <div className="pizza-block">
         <div className="pizza-image-wrapper">
           <img src="/images/pizza-default.jpg" className="pizza-image" />
